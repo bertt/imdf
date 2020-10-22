@@ -56,6 +56,8 @@ namespace imdf.core.tests
         {
             var venue = new Venue(testpolygon, id);
             venue.VenueCategory = VenueCategory.shoppingcenter;
+            venue.RestrictionCategory = RestrictionCategory.employeesonly;
+            Assert.IsTrue(venue.RestrictionCategory == RestrictionCategory.employeesonly);
             venue.RestrictionCategory = null;
             venue.DisplayPoint = new Point(new Position(1.0, 100.0));
             venue.Phone = "+12225551212";
