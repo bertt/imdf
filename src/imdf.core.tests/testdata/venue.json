@@ -1,0 +1,33 @@
+﻿{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "type": "Feature",
+  "feature_type": "venue",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [ 100.0, 0.0 ],
+        [ 101.0, 0.0 ],
+        [ 101.0, 1.0 ],
+        [ 100.0, 1.0 ],
+        [ 100.0, 0.0 ]
+      ]
+    ]
+  },
+  "properties": {
+    "category": "shoppingcenter",
+    "restriction": null,
+    "name": {
+      "en": "Test Venue"
+    },
+    "alt_name": null,
+    "hours": "Mo-Fr 08:30-20:00",
+    "website": "http://example.com",
+    "phone": "+12225551212",
+    "display_point": {
+      "type": "Point",
+      "coordinates": [ 100.0, 1.0 ]
+    },
+    "address_id": "22222222-2222-2222-2222-222222222222"
+  }
+}
