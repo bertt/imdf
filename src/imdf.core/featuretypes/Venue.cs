@@ -9,31 +9,37 @@ using System.Collections.Generic;
 namespace Imdf.Core.FeatureTypes
 {
     // specs see https://register.apple.com/resources/imdf/Venue/
-    public class Venue:Feature
+    public class Venue : Feature
     {
-        public Venue(Polygon polygon, string id, IDictionary<string, object> properties = null): base(polygon, properties,id)
+        public Venue(Polygon geometry, string id, IDictionary<string, object>? properties = null) : base(geometry, properties, id)
         {
             FeatureType = "venue";
         }
 
         [JsonProperty("feature_type")]
-        public string FeatureType { get;}
+        public string FeatureType { get; }
 
         public VenueCategory VenueCategory
         {
-            get {
+            get
+            {
                 return (VenueCategory)Enum.Parse(typeof(VenueCategory), Properties["category"].ToString());
             }
-            set {
+            set
+            {
                 Properties["category"] = value;
             }
         }
 
-        public RestrictionCategory RestrictionCategory
+        public RestrictionCategory? RestrictionCategory
         {
             get
             {
-                return (RestrictionCategory)Enum.Parse(typeof(RestrictionCategory), Properties["restriction"].ToString());
+                if (Properties["restriction"] != null)
+                {
+                    return (RestrictionCategory)Enum.Parse(typeof(RestrictionCategory), Properties["restriction"].ToString());
+                }
+                return null;
             }
             set
             {
@@ -41,12 +47,15 @@ namespace Imdf.Core.FeatureTypes
             }
         }
 
-        public Point DisplayPoint {
+        public Point DisplayPoint
+        {
             get
             {
-                return (Point)Properties["display_point"];
+                var s = Properties["display_point"];
+                return JsonConvert.DeserializeObject<Point>(s.ToString());
             }
-            set {
+            set
+            {
                 Properties["display_point"] = value;
             }
         }
@@ -76,7 +85,8 @@ namespace Imdf.Core.FeatureTypes
             }
         }
 
-        public string AddressId {
+        public string AddressId
+        {
             get
             {
                 return (string)Properties["address_id"];
@@ -87,7 +97,8 @@ namespace Imdf.Core.FeatureTypes
             }
         }
 
-        public string Hours {
+        public string Hours
+        {
             get
             {
                 return (string)Properties["hours"];
@@ -96,10 +107,10 @@ namespace Imdf.Core.FeatureTypes
             {
                 Properties["hours"] = value;
             }
-
         }
 
-        public string Phone {
+        public string Phone
+        {
             get
             {
                 return (string)Properties["phone"];

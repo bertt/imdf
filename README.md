@@ -1,6 +1,6 @@
 # imdf
 
-.NET Standard 2.0 Library for Indoor Mapping Data Format https://register.apple.com/resources/imdf/
+.NET Standard 2.1 Library for Indoor Mapping Data Format https://register.apple.com/resources/imdf/
 
 This library has a dependency on GeoJSON.NET for the feature types.
 

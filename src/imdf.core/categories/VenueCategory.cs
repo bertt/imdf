@@ -1,6 +1,10 @@
-﻿namespace Imdf.Core.Categories
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Imdf.Core.Categories
 {
     // sepcs: https://register.apple.com/resources/imdf/Categories/#venue
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum VenueCategory
     {
         airport,

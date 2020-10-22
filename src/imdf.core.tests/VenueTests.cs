@@ -19,14 +19,15 @@ namespace imdf.core.tests
         {
             var coordinates = new List<IPosition>
             {
-                new Position(52.370725881211314, 4.889259338378906),
-                new Position(52.3711451105601, 4.895267486572266),
-                new Position(52.36931095278263, 4.892091751098633),
-                new Position(52.370725881211314, 4.889259338378906)
+                new Position(0.0, 100.0),
+                new Position(0.0,101.0),
+                new Position(1.0, 101.0),
+                new Position(1.0,100.0),
+                new Position(0.0, 100.0),
             };
 
             testpolygon = new Polygon(new List<LineString> { new LineString(coordinates) });
-            id = "4343";
+            id = "11111111-1111-1111-1111-111111111111";
         }
 
         [Test]
@@ -54,31 +55,36 @@ namespace imdf.core.tests
         public void TestVenueAttributes()
         {
             var venue = new Venue(testpolygon, id);
-            venue.VenueCategory = VenueCategory.airport;
-            venue.RestrictionCategory = RestrictionCategory.employeesonly;
-            venue.DisplayPoint = new Point(new Position(1, 2));
-            venue.Phone = "+4343";
-            venue.Website = "http://www.test.nl";
+            venue.VenueCategory = VenueCategory.shoppingcenter;
+            venue.RestrictionCategory = null;
+            venue.DisplayPoint = new Point(new Position(1.0, 100.0));
+            venue.Phone = "+12225551212";
+            venue.Website = "http://example.com";
             venue.Hours = "Mo-Fr 08:30-20:00";
             venue.AddressId = "22222222-2222-2222-2222-222222222222";
 
             var nameObject = JObject.FromObject(new{
-                en = "testvalue"
+                en = "Test Venue"
             });
             venue.Name = nameObject;
-            venue.AltName = nameObject;
+            venue.AltName = null;
 
             var actualJson = JsonConvert.SerializeObject(venue);
-
-            Assert.IsTrue(venue.VenueCategory == VenueCategory.airport);
-            Assert.IsTrue(venue.RestrictionCategory == RestrictionCategory.employeesonly);
-            Assert.IsTrue(venue.DisplayPoint.Equals(new Point(new Position(1, 2))));
-            Assert.IsTrue(venue.Phone.Equals("+4343"));
-            Assert.IsTrue(venue.Website.Equals("http://www.test.nl"));
-            Assert.IsTrue(venue.Hours.Equals("Mo-Fr 08:30-20:00"));
-            Assert.IsTrue(venue.AddressId.Equals("22222222-2222-2222-2222-222222222222"));
-            Assert.IsTrue(venue.Name.Equals(nameObject));
-            Assert.IsTrue(venue.AltName.Equals(nameObject));
+            var actualVenue = JsonConvert.DeserializeObject<Venue>(actualJson);
+            var expectedJson = File.ReadAllText("testdata/venue.json");
+            var expectedVenue = JsonConvert.DeserializeObject<Venue>(expectedJson);
+            Assert.AreEqual(expectedVenue, actualVenue);
+            Assert.IsTrue(actualVenue.Geometry != null);
+            Assert.IsTrue(((Polygon)actualVenue.Geometry).Coordinates[0].Coordinates[0].Longitude == 100.0);
+            Assert.IsTrue(actualVenue.VenueCategory == VenueCategory.shoppingcenter);
+            Assert.IsTrue(actualVenue.RestrictionCategory == null);
+            Assert.IsTrue(actualVenue.Phone.Equals("+12225551212"));
+            Assert.IsTrue(actualVenue.Website.Equals("http://example.com"));
+            Assert.IsTrue(actualVenue.Hours.Equals("Mo-Fr 08:30-20:00"));
+            Assert.IsTrue(actualVenue.AddressId.Equals("22222222-2222-2222-2222-222222222222"));
+            Assert.IsTrue(actualVenue.Name.ToString() == nameObject.ToString());
+            Assert.IsTrue(actualVenue.AltName == null);
+            Assert.IsTrue(actualVenue.DisplayPoint.Equals(new Point(new Position(1.0, 100.0))));
         }
     }
 }
