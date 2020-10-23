@@ -36,7 +36,6 @@ var id = "11111111-1111-1111-1111-111111111111";
 var venue = new Venue(testpolygon, id);
 venue.VenueCategory = VenueCategory.shoppingcenter;
 venue.RestrictionCategory = RestrictionCategory.employeesonly;
-venue.RestrictionCategory = null;
 venue.DisplayPoint = new Point(new Position(1.0, 100.0));
 venue.Phone = "+12225551212";
 venue.Website = "http://example.com";
@@ -46,7 +45,6 @@ var nameObject = JObject.FromObject(new{
      en = "Test Venue"
 });
 venue.Name = nameObject;
-venue.AltName = null;
 
 var venueJson = JsonConvert.SerializeObject(venue);
 File.WriteAllText("testdata/venue.json", venueJson);
